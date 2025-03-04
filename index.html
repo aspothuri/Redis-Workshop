@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Capitals</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        table {
+            width: 60%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Country Capitals</h2>
+    <button onclick="fetchCapitals('nocache')">Fetch Without Cache</button>
+    <button onclick="fetchCapitals('cache')">Fetch With Cache</button>
+
+    <p id="status"></p>
+
+    <table id="capitalsTable">
+        <thead>
+            <tr>
+                <th>Country</th>
+                <th>Capital</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        async function fetchCapitals(method) {
+            const tableBody = document.querySelector("#capitalsTable tbody");
+            const status = document.getElementById("status");
+            tableBody.innerHTML = "<tr><td colspan='2'>Loading...</td></tr>";
+            status.innerText = `Fetching data using ${method.toUpperCase()}...`;
+
+            try {
+                const response = await fetch(`http://localhost:3000/${method}`);
+                const data = await response.json();
+
+                if (!data.capitals) throw new Error("Invalid response format");
+
+                tableBody.innerHTML = "";
+                for (const [country, capital] of Object.entries(data.capitals)) {
+                    const row = `<tr><td>${country}</td><td>${capital}</td></tr>`;
+                    tableBody.innerHTML += row;
+                }
+
+                status.innerText = `✅ Data loaded successfully in ${data.timeTaken}`;
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                tableBody.innerHTML = "<tr><td colspan='2'>Error fetching data</td></tr>";
+                status.innerText = "❌ Failed to fetch data";
+            }
+        }
+    </script>
+
+</body>
+</html>
