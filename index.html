@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Country Capitals</title>
+    <title>Stock Prices</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -32,17 +32,17 @@
 </head>
 <body>
 
-    <h2>Country Capitals</h2>
-    <button onclick="fetchCapitals('nocache')">Fetch Without Cache</button>
-    <button onclick="fetchCapitals('cache')">Fetch With Cache</button>
+    <h2>Stock Prices</h2>
+    <button onclick="fetchStockPrices('nocache')">Fetch Without Cache</button>
+    <button onclick="fetchStockPrices('cache')">Fetch With Cache</button>
 
     <p id="status"></p>
 
-    <table id="capitalsTable">
+    <table id="stocksTable">
         <thead>
             <tr>
-                <th>Country</th>
-                <th>Capital</th>
+                <th>Stock</th>
+                <th>Price</th>
             </tr>
         </thead>
         <tbody>
@@ -50,8 +50,8 @@
     </table>
 
     <script>
-        async function fetchCapitals(method) {
-            const tableBody = document.querySelector("#capitalsTable tbody");
+        async function fetchStockPrices(method) {
+            const tableBody = document.querySelector("#stocksTable tbody");
             const status = document.getElementById("status");
             tableBody.innerHTML = "<tr><td colspan='2'>Loading...</td></tr>";
             status.innerText = `Fetching data using ${method.toUpperCase()}...`;
@@ -60,11 +60,11 @@
                 const response = await fetch(`http://localhost:3000/${method}`);
                 const data = await response.json();
 
-                if (!data.capitals) throw new Error("Invalid response format");
+                if (!data.stockPrices) throw new Error("Invalid response format");
 
                 tableBody.innerHTML = "";
-                for (const [country, capital] of Object.entries(data.capitals)) {
-                    const row = `<tr><td>${country}</td><td>${capital}</td></tr>`;
+                for (const [stock, price] of Object.entries(data.stockPrices)) {
+                    const row = `<tr><td>${stock}</td><td>${price}</td></tr>`;
                     tableBody.innerHTML += row;
                 }
 
