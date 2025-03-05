@@ -14,7 +14,7 @@ cd Redis-Workshop
 ```
 to enter the GitHub repository directory and use 
 ```
-docker exec -it redis redis-cli
+docker run --name redis -p 6379:6379 -d redis
 ```
 to begin running the docker engine with the redis-cli library.
 Next we must cd into the captials-wiki folder and install modules using
