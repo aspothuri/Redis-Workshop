@@ -6,7 +6,7 @@ You can find the link to do so [here] (https://www.docker.com/get-started/)
 
 While this is installing you can set up the GitHub using
 ```
-git clone -b unfinished https://github.com/aspothuri/Redis-Workshop.git
+git clone https://github.com/aspothuri/Redis-Workshop.git
 ```
 Then run
 ```
